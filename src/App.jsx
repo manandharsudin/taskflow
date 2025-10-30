@@ -1,10 +1,16 @@
+import Header from './components/Header/Header'
+import './App.css'
+
 function App() {
-    return (
-      <div className="app">
-        <h1>TaskFlow</h1>
-        <p>Your task management app</p>
-      </div>
-    )
-  }
-  
-  export default App
+  return (
+    <div className="app">
+      <Header title="My Task" />
+      
+      <main className="main-content">
+        <p>Task list will go here soon...</p>
+      </main>
+    </div>
+  )
+}
+
+export default App
