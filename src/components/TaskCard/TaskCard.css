@@ -1,0 +1,96 @@
+.task-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 1rem;
+  }
+  
+  .task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .task-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+  }
+  
+  .task-title {
+    font-size: 1.25rem;
+    color: #333;
+    margin: 0;
+    flex: 1;
+  }
+  
+  .task-description {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  
+  .task-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+  }
+  
+  .task-due-date {
+    color: #888;
+    font-size: 0.9rem;
+  }
+  
+  /* Priority Badges */
+  .priority-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .priority-low {
+    background: #d4edda;
+    color: #155724;
+  }
+  
+  .priority-medium {
+    background: #fff3cd;
+    color: #856404;
+  }
+  
+  .priority-high {
+    background: #f8d7da;
+    color: #721c24;
+  }
+  
+  /* Status Indicators */
+  .task-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  
+  .status-pending {
+    background: #e3f2fd;
+    color: #1976d2;
+  }
+  
+  .status-in-progress {
+    background: #fff3e0;
+    color: #f57c00;
+  }
+  
+  .status-completed {
+    background: #e8f5e9;
+    color: #388e3c;
+  }
