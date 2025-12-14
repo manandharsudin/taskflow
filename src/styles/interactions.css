@@ -1,0 +1,33 @@
+/* Better tap feedback for touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .task-card,
+  .filter-btn,
+  .stat-card {
+    -webkit-tap-highlight-color: rgba(102, 126, 234, 0.1);
+  }
+  
+  .task-card:active {
+    transform: scale(0.98);
+  }
+  
+  .filter-btn:active {
+    transform: scale(0.95);
+  }
+  
+  .stat-card:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Disable hover effects on touch devices */
+@media (hover: none) {
+  .task-card:hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .stat-card:hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}

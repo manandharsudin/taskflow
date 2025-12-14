@@ -14,6 +14,7 @@
 .filter-buttons {
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .filter-btn {
@@ -29,12 +30,17 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  white-space: nowrap;
 }
 
 .filter-btn:hover {
   border-color: #667eea;
   color: #667eea;
   transform: translateY(-1px);
+}
+
+.filter-btn:active {
+  transform: translateY(0);
 }
 
 .filter-btn.active {
@@ -88,4 +94,64 @@
 .sort-select:focus {
   border-color: #667eea;
   outline: none;
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) {
+  .task-filter {
+    gap: 1.5rem;
+    padding: 1.25rem;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .task-filter {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .filter-buttons {
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .filter-btn {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+    padding: 0.75rem 0.75rem;
+  }
+  
+  .sort-section {
+    justify-content: space-between;
+  }
+  
+  .sort-select {
+    flex: 1;
+    max-width: 200px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .filter-buttons {
+    flex-direction: column;
+  }
+  
+  .filter-btn {
+    width: 100%;
+  }
+  
+  .sort-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  
+  .sort-select {
+    max-width: 100%;
+  }
 }

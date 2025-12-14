@@ -32,6 +32,7 @@
   gap: 1rem;
 }
 
+/* Empty state */
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;
@@ -49,14 +50,15 @@
 .empty-state h3 {
   color: #333;
   margin-bottom: 0.5rem;
+  font-size: 1.5rem;
 }
 
 .empty-state p {
   color: #666;
+  font-size: 1rem;
 }
 
-/* ... existing styles ... */
-
+/* Loading state */
 .loading-state {
   text-align: center;
   padding: 4rem 2rem;
@@ -83,4 +85,58 @@
 .loading-state p {
   color: #666;
   font-size: 1.1rem;
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) {
+  .task-list-header {
+    padding: 0 0.25rem;
+  }
+  
+  .task-list-title {
+    font-size: 1.5rem;
+  }
+  
+  .task-count {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .task-list-header {
+    margin-bottom: 1rem;
+    padding: 0;
+  }
+  
+  .task-list-title {
+    font-size: 1.35rem;
+  }
+  
+  .task-count {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  .task-list-content {
+    gap: 0.75rem;
+  }
+  
+  .empty-state,
+  .loading-state {
+    padding: 3rem 1.5rem;
+  }
+  
+  .empty-icon {
+    font-size: 3rem;
+  }
+  
+  .empty-state h3 {
+    font-size: 1.25rem;
+  }
+  
+  .empty-state p {
+    font-size: 0.9rem;
+  }
 }

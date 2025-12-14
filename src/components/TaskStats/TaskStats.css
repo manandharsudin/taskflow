@@ -24,10 +24,12 @@
 .stat-icon {
   font-size: 2.5rem;
   line-height: 1;
+  flex-shrink: 0;
 }
 
 .stat-info {
   flex: 1;
+  min-width: 0; /* Prevents overflow */
 }
 
 .stat-value {
@@ -63,14 +65,68 @@
   color: #333;
 }
 
-/* Responsive adjustments */
+/* Tablet adjustments */
+@media (max-width: 1024px) {
+  .task-stats {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+  
+  .stat-card {
+    padding: 1.25rem;
+  }
+  
+  .stat-icon {
+    font-size: 2rem;
+  }
+  
+  .stat-value {
+    font-size: 1.75rem;
+  }
+}
+
+/* Mobile adjustments */
 @media (max-width: 768px) {
   .task-stats {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
   }
   
   .stat-card {
     flex-direction: column;
     text-align: center;
+    padding: 1rem;
+  }
+  
+  .stat-icon {
+    font-size: 1.75rem;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+  }
+  
+  .stat-label {
+    font-size: 0.75rem;
+  }
+  
+  .priority-stats {
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .priority-stat {
+    font-size: 1rem;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .task-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-card {
+    flex-direction: row;
+    text-align: left;
   }
 }
