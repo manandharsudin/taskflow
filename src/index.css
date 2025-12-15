@@ -42,3 +42,22 @@ body {
     min-height: 44px; /* Apple's recommended minimum touch target */
   }
 }
+
+/* Add to existing styles */
+
+/* Better focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+select:focus-visible {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* Remove default focus styles */
+*:focus {
+  outline: none;
+}

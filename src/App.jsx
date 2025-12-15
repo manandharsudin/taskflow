@@ -1,38 +1,45 @@
-import Header from './components/Header/Header'
-import TaskStats from './components/TaskStats/TaskStats'
-import TaskFilter from './components/TaskFilter/TaskFilter'
-import TaskList from './components/TaskList/TaskList'
+import { Header, TaskStats, TaskFilter, TaskList } from './components'
 import { sampleTasks } from './data/sampleTasks'
-import { filterTasks, sortTasks, getTaskStats } from './utils/taskHelpers'
+import { filterTasks, sortTasks, getTaskStats } from './utils'
+import { FILTER_OPTIONS, SORT_OPTIONS } from './constants'
+import WeekComplete from './components/WeekComplete/WeekComplete'
 import './App.css'
 
+/**
+ * Main App Component
+ * Manages the overall application layout and data flow
+ */
 function App() {
-    // 🔮 WEEK 2: These will become state!
-  // const [currentFilter, setCurrentFilter] = useState('all')
-  // const [currentSort, setCurrentSort] = useState('priority')
-
-  // For now, these are hardcoded (Week 2 will make them dynamic!)
-  const currentFilter = 'all' // Try changing to 'active' or 'completed'
-  const currentSort = 'priority' // Try 'dueDate' or 'status'
+  // Current filter and sort settings (hardcoded for Week 1)
+  // Week 2 will convert these to state with useState
+  const currentFilter = FILTER_OPTIONS.ALL
+  const currentSort = SORT_OPTIONS.PRIORITY
   
-  // Apply filter and sort
+  // Data transformation pipeline
+  // 1. Filter tasks based on current filter
   const filteredTasks = filterTasks(sampleTasks, currentFilter)
+  
+  // 2. Sort filtered tasks based on current sort option
   const sortedTasks = sortTasks(filteredTasks, currentSort)
   
-  // Calculate statistics
+  // 3. Calculate statistics from original data
   const stats = getTaskStats(sampleTasks)
   
   return (
     <div className="app">
+      {/* App Header */}
       <Header 
         icon="✓"
         title="TaskFlow"
         subtitle="Organize your tasks efficiently"
       />
       
+      {/* Main Content Area */}
       <main className="main-content">
+        {/* Statistics Dashboard */}
         <TaskStats stats={stats} />
         
+        {/* Filter and Sort Controls */}
         <TaskFilter 
           activeFilter={currentFilter}
           totalTasks={stats.total}
@@ -40,8 +47,12 @@ function App() {
           completedTasks={stats.completed}
         />
         
-        <TaskList tasks={sortedTasks} isLoading={false} />
+        {/* Task List */}
+        <TaskList tasks={sortedTasks} />
       </main>
+
+      {/* Week Complete Modal */}
+      <WeekComplete />
     </div>
   )
 }

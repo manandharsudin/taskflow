@@ -67,6 +67,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Enhance the spinner */
 .spinner {
   width: 50px;
   height: 50px;
@@ -82,9 +83,16 @@
   100% { transform: rotate(360deg); }
 }
 
+/* Add pulse effect to loading text */
 .loading-state p {
   color: #666;
   font-size: 1.1rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 /* Tablet adjustments */
@@ -138,5 +146,40 @@
   
   .empty-state p {
     font-size: 0.9rem;
+  }
+}
+
+/* Add to existing styles */
+
+.task-list-content .task-card {
+  animation: slideIn 0.3s ease-out;
+  animation-fill-mode: both;
+}
+
+/* Stagger animation for each card */
+.task-list-content .task-card:nth-child(1) { animation-delay: 0.05s; }
+.task-list-content .task-card:nth-child(2) { animation-delay: 0.1s; }
+.task-list-content .task-card:nth-child(3) { animation-delay: 0.15s; }
+.task-list-content .task-card:nth-child(4) { animation-delay: 0.2s; }
+.task-list-content .task-card:nth-child(5) { animation-delay: 0.25s; }
+.task-list-content .task-card:nth-child(6) { animation-delay: 0.3s; }
+.task-list-content .task-card:nth-child(7) { animation-delay: 0.35s; }
+.task-list-content .task-card:nth-child(8) { animation-delay: 0.4s; }
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .task-list-content .task-card {
+    animation: none;
   }
 }
