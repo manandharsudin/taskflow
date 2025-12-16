@@ -1,58 +1,70 @@
+import { useState } from 'react'
 import { Header, TaskStats, TaskFilter, TaskList } from './components'
 import { sampleTasks } from './data/sampleTasks'
 import { filterTasks, sortTasks, getTaskStats } from './utils'
 import { FILTER_OPTIONS, SORT_OPTIONS } from './constants'
-import WeekComplete from './components/WeekComplete/WeekComplete'
+import Counter from './components/Counter/Counter'
 import './App.css'
 
-/**
- * Main App Component
- * Manages the overall application layout and data flow
- */
 function App() {
-  // Current filter and sort settings (hardcoded for Week 1)
-  // Week 2 will convert these to state with useState
-  const currentFilter = FILTER_OPTIONS.ALL
-  const currentSort = SORT_OPTIONS.PRIORITY
+  const [currentFilter, setCurrentFilter] = useState(FILTER_OPTIONS.ALL)
+  const [currentSort, setCurrentSort] = useState(SORT_OPTIONS.PRIORITY)
+  const [showStats, setShowStats] = useState(true) // New state!
   
-  // Data transformation pipeline
-  // 1. Filter tasks based on current filter
   const filteredTasks = filterTasks(sampleTasks, currentFilter)
-  
-  // 2. Sort filtered tasks based on current sort option
   const sortedTasks = sortTasks(filteredTasks, currentSort)
-  
-  // 3. Calculate statistics from original data
   const stats = getTaskStats(sampleTasks)
+  
+  const handleFilterChange = (filter) => {
+    setCurrentFilter(filter)
+  }
+  
+  const handleSortChange = (sort) => {
+    setCurrentSort(sort)
+  }
   
   return (
     <div className="app">
-      {/* App Header */}
       <Header 
         icon="✓"
         title="TaskFlow"
         subtitle="Organize your tasks efficiently"
       />
       
-      {/* Main Content Area */}
       <main className="main-content">
-        {/* Statistics Dashboard */}
-        <TaskStats stats={stats} />
+        {/* Temporary: Counter Demo */}
+        <Counter />
+        {/* Toggle button */}
+        <button 
+          onClick={() => setShowStats(!showStats)}
+          style={{
+            marginBottom: '1rem',
+            padding: '0.75rem 1.5rem',
+            background: '#667eea',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            fontWeight: 600
+          }}
+        >
+          {showStats ? 'Hide' : 'Show'} Statistics
+        </button>
         
-        {/* Filter and Sort Controls */}
+        {/* Conditional render based on state */}
+        {showStats && <TaskStats stats={stats} />}
+        
         <TaskFilter 
           activeFilter={currentFilter}
           totalTasks={stats.total}
           activeTasks={stats.active}
           completedTasks={stats.completed}
+          onFilterChange={handleFilterChange}
+          onSortChange={handleSortChange}
         />
         
-        {/* Task List */}
         <TaskList tasks={sortedTasks} />
       </main>
-
-      {/* Week Complete Modal */}
-      <WeekComplete />
     </div>
   )
 }

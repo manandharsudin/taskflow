@@ -1,23 +1,23 @@
 import './TaskFilter.css'
 
-function TaskFilter({ activeFilter, totalTasks, activeTasks, completedTasks }) {
-  // Temporary: Just log clicks (Week 2 will make these functional!)
-  const handleFilterClick = (filter) => {
-    console.log('Filter clicked:', filter)
-    // 🔮 Week 2: Will call setCurrentFilter(filter)
-  }
-  
-  const handleSortChange = (event) => {
-    console.log('Sort changed:', event.target.value)
-    // 🔮 Week 2: Will call setCurrentSort(event.target.value)
-  }
-  
+/**
+ * TaskFilter Component
+ * Provides filtering and sorting controls for tasks
+ */
+function TaskFilter({ 
+  activeFilter, 
+  totalTasks, 
+  activeTasks, 
+  completedTasks,
+  onFilterChange,
+  onSortChange
+}) {
   return (
     <div className="task-filter">
       <div className="filter-buttons">
         <button 
           className={`filter-btn ${activeFilter === 'all' ? 'active' : ''}`}
-          onClick={() => handleFilterClick('all')}
+          onClick={() => onFilterChange('all')}
         >
           All
           <span className="filter-count">{totalTasks}</span>
@@ -25,7 +25,7 @@ function TaskFilter({ activeFilter, totalTasks, activeTasks, completedTasks }) {
         
         <button 
           className={`filter-btn ${activeFilter === 'active' ? 'active' : ''}`}
-          onClick={() => handleFilterClick('active')}
+          onClick={() => onFilterChange('active')}
         >
           Active
           <span className="filter-count">{activeTasks}</span>
@@ -33,7 +33,7 @@ function TaskFilter({ activeFilter, totalTasks, activeTasks, completedTasks }) {
         
         <button 
           className={`filter-btn ${activeFilter === 'completed' ? 'active' : ''}`}
-          onClick={() => handleFilterClick('completed')}
+          onClick={() => onFilterChange('completed')}
         >
           Completed
           <span className="filter-count">{completedTasks}</span>
@@ -45,7 +45,7 @@ function TaskFilter({ activeFilter, totalTasks, activeTasks, completedTasks }) {
         <select 
           id="sort-select" 
           className="sort-select"
-          onChange={handleSortChange}
+          onChange={(e) => onSortChange(e.target.value)}
         >
           <option value="priority">Priority</option>
           <option value="dueDate">Due Date</option>
