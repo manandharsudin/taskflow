@@ -1,24 +1,47 @@
 import { useState } from 'react'
 import { Header, TaskStats, TaskFilter, TaskList } from './components'
+import AddTaskForm from './components/AddTaskForm/AddTaskForm'
 import { sampleTasks } from './data/sampleTasks'
 import { filterTasks, sortTasks, getTaskStats } from './utils'
 import { FILTER_OPTIONS, SORT_OPTIONS } from './constants'
-import Counter from './components/Counter/Counter'
 import './App.css'
 
 function App() {
+  // Tasks state - initialized with sample data
+  const [tasks, setTasks] = useState(sampleTasks)
+  
+  // Filter and sort state
   const [currentFilter, setCurrentFilter] = useState(FILTER_OPTIONS.ALL)
   const [currentSort, setCurrentSort] = useState(SORT_OPTIONS.PRIORITY)
-  const [showStats, setShowStats] = useState(true) // New state!
   
-  const filteredTasks = filterTasks(sampleTasks, currentFilter)
+  // Form visibility state
+  const [showAddForm, setShowAddForm] = useState(false)
+
+  const [successMessage, setSuccessMessage] = useState('')
+  
+  // Data transformation pipeline
+  const filteredTasks = filterTasks(tasks, currentFilter)
   const sortedTasks = sortTasks(filteredTasks, currentSort)
-  const stats = getTaskStats(sampleTasks)
+  const stats = getTaskStats(tasks)
   
+  /**
+   * Add new task to the list
+   */
+  const handleAddTask = (newTask) => {
+    setTasks(prevTasks => [newTask, ...prevTasks]) // Add to beginning
+    setShowAddForm(false) // Hide form after adding
+  }
+  
+  /**
+   * Handle filter change
+   */
   const handleFilterChange = (filter) => {
     setCurrentFilter(filter)
   }
   
+  /**
+   * Handle sort change
+   */
   const handleSortChange = (sort) => {
     setCurrentSort(sort)
   }
@@ -32,27 +55,31 @@ function App() {
       />
       
       <main className="main-content">
-        {/* Temporary: Counter Demo */}
-        <Counter />
-        {/* Toggle button */}
-        <button 
-          onClick={() => setShowStats(!showStats)}
-          style={{
-            marginBottom: '1rem',
-            padding: '0.75rem 1.5rem',
-            background: '#667eea',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontWeight: 600
-          }}
-        >
-          {showStats ? 'Hide' : 'Show'} Statistics
-        </button>
+        {/* Success Message */}
+        {successMessage && (
+          <div className="success-message">
+            ✓ {successMessage}
+          </div>
+        )}
+        {/* Add Task Button */}
+        <div className="action-bar">
+          <button 
+            className="btn-add-task"
+            onClick={() => setShowAddForm(!showAddForm)}
+          >
+            {showAddForm ? '✕ Cancel' : '+ Add New Task'}
+          </button>
+        </div>
         
-        {/* Conditional render based on state */}
-        {showStats && <TaskStats stats={stats} />}
+        {/* Add Task Form (conditional) */}
+        {showAddForm && (
+          <AddTaskForm 
+            onAddTask={handleAddTask}
+            onCancel={() => setShowAddForm(false)}
+          />
+        )}
+        
+        <TaskStats stats={stats} />
         
         <TaskFilter 
           activeFilter={currentFilter}
