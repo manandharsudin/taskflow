@@ -1,47 +1,101 @@
 import { useState } from 'react'
 import { Header, TaskStats, TaskFilter, TaskList } from './components'
 import AddTaskForm from './components/AddTaskForm/AddTaskForm'
+import EditTaskForm from './components/EditTaskForm/EditTaskForm'
 import { sampleTasks } from './data/sampleTasks'
 import { filterTasks, sortTasks, getTaskStats } from './utils'
-import { FILTER_OPTIONS, SORT_OPTIONS } from './constants'
+import { FILTER_OPTIONS, SORT_OPTIONS, TASK_STATUS } from './constants'
 import './App.css'
 
 function App() {
-  // Tasks state - initialized with sample data
   const [tasks, setTasks] = useState(sampleTasks)
-  
-  // Filter and sort state
   const [currentFilter, setCurrentFilter] = useState(FILTER_OPTIONS.ALL)
   const [currentSort, setCurrentSort] = useState(SORT_OPTIONS.PRIORITY)
-  
-  // Form visibility state
   const [showAddForm, setShowAddForm] = useState(false)
-
+  const [editingTask, setEditingTask] = useState(null)
   const [successMessage, setSuccessMessage] = useState('')
   
-  // Data transformation pipeline
   const filteredTasks = filterTasks(tasks, currentFilter)
   const sortedTasks = sortTasks(filteredTasks, currentSort)
   const stats = getTaskStats(tasks)
   
   /**
-   * Add new task to the list
+   * Show temporary success message
    */
-  const handleAddTask = (newTask) => {
-    setTasks(prevTasks => [newTask, ...prevTasks]) // Add to beginning
-    setShowAddForm(false) // Hide form after adding
+  const showSuccess = (message) => {
+    setSuccessMessage(message)
+    setTimeout(() => setSuccessMessage(''), 3000)
   }
   
   /**
-   * Handle filter change
+   * Add new task
    */
+  const handleAddTask = (newTask) => {
+    setTasks(prevTasks => [newTask, ...prevTasks])
+    setShowAddForm(false)
+    showSuccess('Task added successfully!')
+  }
+  
+  /**
+   * Delete task by ID
+   */
+  const handleDeleteTask = (taskId) => {
+    setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId))
+    showSuccess('Task deleted successfully!')
+  }
+  
+  /**
+   * Toggle task completion status
+   */
+  const handleToggleComplete = (taskId) => {
+    setTasks(prevTasks => 
+      prevTasks.map(task => 
+        task.id === taskId
+          ? { 
+              ...task, 
+              status: task.status === TASK_STATUS.COMPLETED 
+                ? TASK_STATUS.PENDING 
+                : TASK_STATUS.COMPLETED 
+            }
+          : task
+      )
+    )
+  }
+  
+  /**
+   * Edit task (placeholder for now)
+   */
+  const handleEditTask = (taskId) => {
+    const task = tasks.find(t => t.id === taskId)
+    if (task) {
+      setEditingTask(task)
+    }
+  }
+
+  /**
+   * Save edited task
+   */
+  const handleSaveEdit = (updatedTask) => {
+    setTasks(prevTasks =>
+      prevTasks.map(task =>
+        task.id === updatedTask.id ? updatedTask : task
+      )
+    )
+    setEditingTask(null)
+    showSuccess('Task updated successfully!')
+  }
+  
+  /**
+   * Cancel editing
+   */
+  const handleCancelEdit = () => {
+    setEditingTask(null)
+  }
+  
   const handleFilterChange = (filter) => {
     setCurrentFilter(filter)
   }
   
-  /**
-   * Handle sort change
-   */
   const handleSortChange = (sort) => {
     setCurrentSort(sort)
   }
@@ -55,13 +109,12 @@ function App() {
       />
       
       <main className="main-content">
-        {/* Success Message */}
         {successMessage && (
           <div className="success-message">
             ✓ {successMessage}
           </div>
         )}
-        {/* Add Task Button */}
+        
         <div className="action-bar">
           <button 
             className="btn-add-task"
@@ -71,7 +124,6 @@ function App() {
           </button>
         </div>
         
-        {/* Add Task Form (conditional) */}
         {showAddForm && (
           <AddTaskForm 
             onAddTask={handleAddTask}
@@ -90,8 +142,22 @@ function App() {
           onSortChange={handleSortChange}
         />
         
-        <TaskList tasks={sortedTasks} />
+        <TaskList 
+          tasks={sortedTasks}
+          onDeleteTask={handleDeleteTask}
+          onEditTask={handleEditTask}
+          onToggleComplete={handleToggleComplete}
+        />
       </main>
+
+      {/* Edit Modal */}
+      {editingTask && (
+        <EditTaskForm
+          task={editingTask}
+          onSave={handleSaveEdit}
+          onCancel={handleCancelEdit}
+        />
+      )}
     </div>
   )
 }

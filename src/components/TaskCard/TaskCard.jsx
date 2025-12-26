@@ -3,33 +3,37 @@ import './TaskCard.css'
 
 /**
  * TaskCard Component
- * Displays a single task with title, description, priority, due date, and status
- * 
- * @param {Object} props - Component props
- * @param {string} props.title - Task title
- * @param {string} props.description - Task description (optional)
- * @param {string} props.priority - Task priority ('low', 'medium', 'high')
- * @param {string} props.dueDate - Task due date string
- * @param {string} props.status - Task status ('pending', 'in-progress', 'completed')
+ * Displays a single task with all its information and actions
  */
 function TaskCard({ 
+  id,
   title = "Untitled Task",
   description = "",
   priority = "medium",
   dueDate = "No due date",
-  status = "pending"
+  status = "pending",
+  onDelete,
+  onEdit,
+  onToggleComplete
 }) {
   /**
    * Get icon for priority level
-   * @param {string} priority - Priority level
-   * @returns {string} Emoji icon
    */
   const getPriorityIcon = (priority) => {
     return PRIORITY_ICONS[priority] || '⚪'
   }
+  
+  /**
+   * Handle delete with confirmation
+   */
+  const handleDelete = () => {
+    if (window.confirm(`Are you sure you want to delete "${title}"?`)) {
+      onDelete(id)
+    }
+  }
 
   return (
-    <div className="task-card">
+    <div className={`task-card ${status === 'completed' ? 'completed' : ''}`}>
       <div className="task-card-header">
         <h3 className="task-title">{title}</h3>
         <span className={`priority-badge priority-${priority}`}>
@@ -42,10 +46,39 @@ function TaskCard({
       )}
       
       <div className="task-card-footer">
-        <span className="task-due-date">📅 {dueDate}</span>
-        <span className={`task-status status-${status}`}>
-          {status}
-        </span>
+        <div className="task-info">
+          <span className="task-due-date">📅 {dueDate}</span>
+          <span className={`task-status status-${status}`}>
+            {status}
+          </span>
+        </div>
+        
+        {/* Action Buttons */}
+        <div className="task-actions">
+          <button 
+            className="btn-action btn-complete"
+            onClick={() => onToggleComplete(id)}
+            title={status === 'completed' ? 'Mark as incomplete' : 'Mark as complete'}
+          >
+            {status === 'completed' ? '↶' : '✓'}
+          </button>
+          
+          <button 
+            className="btn-action btn-edit"
+            onClick={() => onEdit(id)}
+            title="Edit task"
+          >
+            ✎
+          </button>
+          
+          <button 
+            className="btn-action btn-delete"
+            onClick={handleDelete}
+            title="Delete task"
+          >
+            ✕
+          </button>
+        </div>
       </div>
     </div>
   )

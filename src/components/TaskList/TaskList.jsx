@@ -1,8 +1,7 @@
 import TaskCard from '../TaskCard/TaskCard'
 import './TaskList.css'
 
-function TaskList({ tasks, isLoading }) {
-  // Loading state (for future API calls)
+function TaskList({ tasks, isLoading, onDeleteTask, onEditTask, onToggleComplete }) {
   if (isLoading) {
     return (
       <div className="task-list">
@@ -14,7 +13,6 @@ function TaskList({ tasks, isLoading }) {
     )
   }
   
-  // Empty state
   if (tasks.length === 0) {
     return (
       <div className="task-list">
@@ -27,7 +25,6 @@ function TaskList({ tasks, isLoading }) {
     )
   }
 
-  // Normal render
   return (
     <div className="task-list">
       <div className="task-list-header">
@@ -40,6 +37,9 @@ function TaskList({ tasks, isLoading }) {
           <TaskCard
             key={task.id}
             {...task}
+            onDelete={onDeleteTask}
+            onEdit={onEditTask}
+            onToggleComplete={onToggleComplete}
           />
         ))}
       </div>
