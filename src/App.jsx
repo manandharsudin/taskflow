@@ -41,7 +41,56 @@ function App() {
   const sortedTasks = sortTasks(filteredTasks, currentSort)
   const stats = getTaskStats(tasks)
   
-  // ... all handlers remain the same
+  const handleAddTask = (newTask) => {
+    setTasks([...tasks, newTask])
+    setShowAddForm(false)
+    setSuccessMessage('Task added successfully')
+    // Clear success message after 3 seconds
+    setTimeout(() => setSuccessMessage(''), 3000)
+  }
+
+  const handleDeleteTask = (taskId) => {
+    setTasks(tasks.filter(task => task.id !== taskId))
+    setSuccessMessage('Task deleted successfully')
+    setTimeout(() => setSuccessMessage(''), 3000)
+  }
+
+  const handleEditTask = (task) => {
+    setEditingTask(task)
+  }
+
+  const handleSaveEdit = (updatedTask) => {
+    setTasks(tasks.map(task => 
+      task.id === updatedTask.id ? updatedTask : task
+    ))
+    setEditingTask(null)
+    setSuccessMessage('Task updated successfully')
+    setTimeout(() => setSuccessMessage(''), 3000)
+  }
+
+  const handleCancelEdit = () => {
+    setEditingTask(null)
+  }
+
+  const handleToggleComplete = (taskId) => {
+    setTasks(tasks.map(task => {
+      if (task.id === taskId) {
+        const newStatus = task.status === TASK_STATUS.COMPLETED 
+          ? TASK_STATUS.PENDING 
+          : TASK_STATUS.COMPLETED
+        return { ...task, status: newStatus }
+      }
+      return task
+    }))
+  }
+
+  const handleFilterChange = (filter) => {
+    setCurrentFilter(filter)
+  }
+
+  const handleSortChange = (sortOption) => {
+    setCurrentSort(sortOption)
+  }
   
   return (
     <div className="app">
